@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Āgamas",
+    "slug": "agamas",
+    "description": "Scriptures that guide rituals and temple worship",
+    "longDescription": "These scriptures define temple design, iconography, and daily worship in the Śrī Vaiṣṇava Sampradāya."
+  },
+  {
+    "name": "Vedānta",
+    "slug": "vedanta",
+    "description": "The philosophical essence and culmination of the Vedas",
+    "longDescription": "The philosophical essence of the Vedas, culminating in teachings on Brahman, the Jīvātmā, and Mokṣa."
+  },
+  {
+     "name": "Theology",
+    "slug": "theology",
+    "description": "The Theological essence of Sampradāya",
+    "longDescription": "Texts discussing and defining the Theology of Sampradaya"
+  },
+  {"name": "Stotra",
+    "slug": "stotra",
+    "description": "Ślōkās praising Śrimannārāyaṇa and Ācāryas",
+    "longDescription": "The essence of Sampradāya conveyed through Ślokās on Śrimannārāyaṇa by pūrvācāryas"
+  },
+  {"name": "Auxilliary Texts",
+    "slug": "auxilliary-texts",
+    "description": "Granthas aiding the Śrivaiṣṇava understanding",
+    "longDescription": "Collection of Granthas authored by Pūrvācāryā's discussing the fine details and the vādā's surrounding it"
+  }
+] 
