@@ -12,19 +12,23 @@ interface CategoryGridProps {
 
 export default function CategoryGrid({ categories }: CategoryGridProps) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
       {categories.map((category) => (
-        <Card key={category.slug} className="overflow-hidden group flex flex-col">
-          <CardHeader className="pb-3 text-left flex-none">
-            <CardTitle className="text-lg sm:text-xl">{category.name}</CardTitle>
-            <CardDescription className="text-sm sm:text-base line-clamp-2">{category.description}</CardDescription>
+        <Card key={category.slug} className="category-card overflow-hidden group flex flex-col h-full">
+          <CardHeader className="pb-4 text-left flex-none">
+            <CardTitle className="category-title text-xl sm:text-2xl font-bold">{category.name}</CardTitle>
+            <CardDescription className="text-base sm:text-lg line-clamp-2 text-muted-foreground">
+              {category.description}
+            </CardDescription>
           </CardHeader>
-          <CardContent className="flex-1">
+          <CardContent className="flex-1 space-y-4">
             <CategoryImage slug={category.slug} name={category.name} />
-            <p className="text-sm text-muted-foreground line-clamp-3">{category.longDescription}</p>
+            <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">
+              {category.longDescription}
+            </p>
           </CardContent>
-          <CardFooter className="mt-auto pt-4">
-            <Button asChild className="w-full group-hover:bg-primary/90 transition-colors">
+          <CardFooter className="mt-auto pt-6">
+            <Button asChild className="btn-primary w-full rounded-lg py-3 text-sm font-semibold">
               <Link href={`/${category.slug}`}>
                 <span>Explore {category.name}</span>
               </Link>
@@ -41,11 +45,11 @@ function CategoryImage({ slug, name }: { slug: string, name: string }) {
   const imgSrc = `/categories/${slug}/${slug}.jpg`
   const placeholder = "/placeholder.svg?height=200&width=300"
   return (
-    <div className="h-32 sm:h-40 rounded-md bg-muted/60 mb-3 sm:mb-4 overflow-hidden flex items-center justify-center">
+    <div className="h-40 sm:h-48 rounded-xl bg-muted/60 mb-4 overflow-hidden flex items-center justify-center shadow-soft border border-border/50">
       <img
         src={imgError ? placeholder : imgSrc}
         alt={name}
-        className="object-cover w-full h-full"
+        className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
         onError={() => setImgError(true)}
       />
     </div>

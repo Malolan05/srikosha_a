@@ -42,14 +42,20 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   const scriptures = await getScripturesByCategory(category.name)
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 min-h-[calc(100vh-4rem)] flex flex-col">
-      <div className="mb-8 sm:mb-12">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-3 sm:mb-4 text-primary">{category.name}</h1>
-        <p className="text-base sm:text-lg text-muted-foreground">{category.description}</p>
-      </div>
+    <div className="gradient-bg min-h-[calc(100vh-4rem)] flex flex-col">
+      <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 flex flex-col">
+        <div className="mb-12 sm:mb-16 text-center">
+          <h1 className="hero-title text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4 sm:mb-6">
+            {category.name}
+          </h1>
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            {category.description}
+          </p>
+        </div>
 
-      <div className="flex-1">
-        <ScriptureList scriptures={scriptures} />
+        <div className="flex-1">
+          <ScriptureList scriptures={scriptures} />
+        </div>
       </div>
     </div>
   )

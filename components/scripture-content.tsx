@@ -89,14 +89,14 @@ function renderVerse(
   const text = displayMode === 'original' ? verse.original_text : (verse.iast_text || "")
   
   return (
-    <div key={verse.verse_number} className="p-3 sm:p-4 rounded-lg bg-background border hover:bg-muted/5 transition-colors">
-      <div className="flex flex-col sm:flex-row justify-between items-start gap-3 sm:gap-4">
+    <div key={verse.verse_number} className="category-card p-4 sm:p-6 rounded-xl bg-card border shadow-soft hover:shadow-warm transition-all duration-300">
+      <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-6">
         <div className="flex-1 w-full">
-          <div className="text-foreground whitespace-pre-wrap break-words">
+          <div className="text-foreground whitespace-pre-wrap break-words leading-relaxed">
             <ScriptText text={text} isTransliteration={displayMode === 'romanized'} />
           </div>
         </div>
-        <Button variant="secondary" size="sm" asChild className="w-full sm:w-auto">
+        <Button variant="secondary" size="sm" asChild className="btn-primary w-full sm:w-auto rounded-lg">
           <Link href={`/scripture/${scriptureSlug}/verse/${absoluteVerseNumber}`}>
             View Verse
           </Link>

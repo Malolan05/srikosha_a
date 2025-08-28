@@ -17,15 +17,17 @@ export default function Header() {
   const { open: searchOpen, setOpen: setSearchOpen } = useSearchCommand()
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-40 w-full border-b border-border/50 bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60 shadow-soft">
       <div className="container flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center">
-          <span className="font-bold text-xl text-primary">Śrīkoṣa</span>
+        <Link href="/" className="flex items-center group">
+          <span className="font-bold text-xl text-gradient transition-transform group-hover:scale-105">
+            Śrīkoṣa
+          </span>
         </Link>
 
         <Button
           variant="outline"
-          className="flex-1 max-w-md mx-4 justify-start text-muted-foreground"
+          className="flex-1 max-w-md mx-4 justify-start text-muted-foreground border-border/50 hover:border-primary/30 hover:bg-accent/50 transition-all"
           onClick={() => setSearchOpen(true)}
         >
           <Search className="mr-2 h-4 w-4" />
@@ -44,7 +46,7 @@ export default function Header() {
               variant="ghost" 
               size="icon" 
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="relative"
+              className="relative hover:bg-accent/50 transition-colors"
               aria-expanded={isMenuOpen}
             >
               {isMenuOpen ? (
@@ -56,15 +58,15 @@ export default function Header() {
             </Button>
 
             {isMenuOpen && (
-              <div className="absolute right-0 mt-2 w-64 rounded-md shadow-lg bg-popover border">
+              <div className="absolute right-0 mt-2 w-64 rounded-xl shadow-warm bg-popover border border-border/50 backdrop-blur-sm">
                 <nav className="py-2">
                   {categories.map((category) => (
                     <Link
                       key={category.slug}
                       href={`/${category.slug}`}
-                      className={`block px-4 py-2 hover:bg-muted transition-colors ${
+                      className={`block px-4 py-3 hover:bg-muted/50 transition-colors rounded-lg mx-2 ${
                         pathname.startsWith(`/${category.slug}`)
-                          ? "bg-muted"
+                          ? "bg-muted text-primary"
                           : ""
                       }`}
                       onClick={() => setIsMenuOpen(false)}
