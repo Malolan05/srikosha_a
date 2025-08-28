@@ -1,17 +1,20 @@
 "use client"
 
+import type React from "react"
 import Link from "next/link"
 import { useState } from "react"
-import { usePathname, useRouter } from "next/navigation"
-import { Menu, X, Search } from "lucide-react"
+import { usePathname } from "next/navigation"
+import { Menu, X, Search, Command } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
+import type { Category } from "@/lib/types"
 import categories from "@/data/categories.json"
+import { SearchCommand, useSearchCommand } from "@/components/search-command"
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const pathname = usePathname()
-  const router = useRouter()
+  const { open: searchOpen, setOpen: setSearchOpen } = useSearchCommand()
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -23,7 +26,7 @@ export default function Header() {
         <Button
           variant="outline"
           className="flex-1 max-w-md mx-4 justify-start text-muted-foreground"
-          onClick={() => router.push("/search")}
+          onClick={() => setSearchOpen(true)}
         >
           <Search className="mr-2 h-4 w-4" />
           <span>Search scriptures...</span>
@@ -31,6 +34,8 @@ export default function Header() {
             <span className="text-xs">⌘</span>K
           </kbd>
         </Button>
+
+        <SearchCommand open={searchOpen} onOpenChange={setSearchOpen} />
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
@@ -77,3 +82,4 @@ export default function Header() {
     </header>
   )
 }
+
