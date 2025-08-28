@@ -1,153 +1,79 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { useSearchParams } from "next/navigation"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Search, Book, FileText, Tag } from "lucide-react"
 import Link from "next/link"
-import type { SearchResult } from "@/app/api/search/route"
+import { useState } from "react"
+import { usePathname, useRouter } from "next/navigation"
+import { Menu, X, Search } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { ThemeToggle } from "@/components/theme-toggle"
+import categories from "@/data/categories.json"
 
-export default function SearchPage() {
-  const searchParams = useSearchParams()
-  const query = searchParams.get('q')
-  const [results, setResults] = useState<SearchResult[]>([])
-  const [loading, setLoading] = useState(false)
-
-  useEffect(() => {
-    const searchQuery = async () => {
-      if (!query?.trim() || query.length < 2) {
-        setResults([])
-        return
-      }
-
-      setLoading(true)
-      try {
-        const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`)
-        if (response.ok) {
-          const data = await response.json()
-          setResults(data)
-        }
-      } catch (error) {
-        console.error('Search failed:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    searchQuery()
-  }, [query])
-
-  const getIcon = (type: SearchResult['type']) => {
-    switch (type) {
-      case 'scripture':
-        return <Book className="h-5 w-5" />
-      case 'verse':
-        return <FileText className="h-5 w-5" />
-      case 'category':
-        return <Tag className="h-5 w-5" />
-      default:
-        return <Search className="h-5 w-5" />
-    }
-  }
-
-  const getBadgeVariant = (type: SearchResult['type']) => {
-    switch (type) {
-      case 'scripture':
-        return 'default'
-      case 'verse':
-        return 'secondary'
-      case 'category':
-        return 'outline'
-      default:
-        return 'default'
-    }
-  }
-
-  if (!query || query.length < 2) {
-    return (
-      <div className="container mx-auto px-4 py-12">
-        <div className="max-w-4xl mx-auto">
-          <Card className="text-center p-12">
-            <CardContent className="space-y-6">
-              <Search className="h-16 w-16 mx-auto text-primary" />
-              <h1 className="text-3xl font-bold text-primary">Search Śrīkoṣa</h1>
-              <p className="text-muted-foreground max-w-lg mx-auto">
-                Search through sacred texts, verses, and commentaries. Use the search bar above or press <kbd className="px-2 py-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">⌘K</kbd> to get started.
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    )
-  }
+export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const pathname = usePathname()
+  const router = useRouter()
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Search Results</h1>
-          <p className="text-muted-foreground">
-            {loading ? 'Searching...' : `${results.length} results for "${query}"`}
-          </p>
-        </div>
+    <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-16 items-center justify-between">
+        <Link href="/" className="flex items-center">
+          <span className="font-bold text-xl text-primary">Śrīkoṣa</span>
+        </Link>
 
-        {loading && (
-          <div className="flex items-center justify-center py-12">
-            <Search className="h-8 w-8 animate-pulse text-primary mr-3" />
-            <span className="text-lg">Searching through scriptures...</span>
+        <Button
+          variant="outline"
+          className="flex-1 max-w-md mx-4 justify-start text-muted-foreground"
+          onClick={() => router.push("/search")}
+        >
+          <Search className="mr-2 h-4 w-4" />
+          <span>Search scriptures...</span>
+          <kbd className="pointer-events-none ml-auto inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+            <span className="text-xs">⌘</span>K
+          </kbd>
+        </Button>
+
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <div className="relative">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="relative"
+              aria-expanded={isMenuOpen}
+            >
+              {isMenuOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
+              <span className="sr-only">Toggle menu</span>
+            </Button>
+
+            {isMenuOpen && (
+              <div className="absolute right-0 mt-2 w-64 rounded-md shadow-lg bg-popover border">
+                <nav className="py-2">
+                  {categories.map((category) => (
+                    <Link
+                      key={category.slug}
+                      href={`/${category.slug}`}
+                      className={`block px-4 py-2 hover:bg-muted transition-colors ${
+                        pathname.startsWith(`/${category.slug}`)
+                          ? "bg-muted"
+                          : ""
+                      }`}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <div className="font-medium">{category.name}</div>
+                      <p className="text-xs text-muted-foreground">{category.description}</p>
+                    </Link>
+                  ))}
+                </nav>
+              </div>
+            )}
           </div>
-        )}
-
-        {!loading && results.length === 0 && (
-          <Card className="text-center p-8">
-            <CardContent className="space-y-4">
-              <Search className="h-12 w-12 mx-auto text-muted-foreground" />
-              <h2 className="text-xl font-semibold">No results found</h2>
-              <p className="text-muted-foreground">
-                Try different keywords or check your spelling. You can search for scripture names, authors, verses, or categories.
-              </p>
-            </CardContent>
-          </Card>
-        )}
-
-        <div className="space-y-4">
-          {results.map((result, index) => (
-            <Link key={index} href={result.url}>
-              <Card className="hover:shadow-md transition-shadow cursor-pointer">
-                <CardHeader className="pb-3">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className="flex items-center text-primary">
-                        {getIcon(result.type)}
-                      </div>
-                      <div>
-                        <CardTitle className="text-lg">{result.title}</CardTitle>
-                        {result.subtitle && (
-                          <p className="text-sm text-muted-foreground mt-1">
-                            {result.subtitle}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                    <Badge variant={getBadgeVariant(result.type)}>
-                      {result.type}
-                    </Badge>
-                  </div>
-                </CardHeader>
-                {result.content && (
-                  <CardContent className="pt-0">
-                    <p className="text-sm text-muted-foreground line-clamp-3">
-                      {result.content}
-                    </p>
-                  </CardContent>
-                )}
-              </Card>
-            </Link>
-          ))}
         </div>
       </div>
-    </div>
+    </header>
   )
 }
-
