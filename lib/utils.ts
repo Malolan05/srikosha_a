@@ -37,6 +37,8 @@ import taittiriyopanishad from "@/data/scriptures/taittiriya-upanishad.json"
 import shvetasvataropanishad from "@/data/scriptures/shvetasvatara-upanishad.json"
 import mundakopanishad from "@/data/scriptures/mundaka-upanishad.json"
 import kaushitakiupanishad from "@/data/scriptures/kaushitaki-upanishad.json"
+import brihadaranyakopanishad from "@/data/scriptures/brihadaranyaka-upanishad.json"
+
 // Create a map of all scriptures
 const scripturesData: Scripture[] = [
   agamapramanyam,
@@ -57,6 +59,7 @@ const scripturesData: Scripture[] = [
   chandogyopanishad,
   taittiriyopanishad,
   mundakopanishad,
+  brihadaranyakopanishad,
   kaushitakiupanishad,
   shvetasvataropanishad,
   tattvamuktakalapam,
