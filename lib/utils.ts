@@ -39,6 +39,7 @@ import mundakopanishad from "@/data/scriptures/mundaka-upanishad.json"
 import kaushitakiupanishad from "@/data/scriptures/kaushitaki-upanishad.json"
 import brihadaranyakopanishad from "@/data/scriptures/brihadaranyaka-upanishad.json"
 import smritimuktaphalam from "@/data/scriptures/smritimuktaphalam.json"
+import tarkasangraha from "@/data/scriptures/tarkasangraha.json"
 
 // Create a map of all scriptures
 const scripturesData: Scripture[] = [
@@ -73,7 +74,8 @@ const scripturesData: Scripture[] = [
   rahasyatrayasararthasangraha,
   purushakaramimamsa,
   mimamsaparibasha,
-  shatadushani
+  shatadushani,
+  tarkasangraha
 ]
 
 export function getScriptType(text: string): 'devanagari' | 'tamil' | 'latin' | 'mixed' {
